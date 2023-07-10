@@ -4,39 +4,67 @@
   "scopeName": "source.gleam.ghp",
   "patterns": [
     {
-      "begin": ">->",
-      "beginCaptures": {
-        "0": { "name": "punctuation.definition.embedded.html.begin.ghp" }
-      },
-      "end": "<-<",
-      "endCaptures": {
-        "0": { "name": "punctuation.definition.embedded.html.end.ghp" }
-      },
-      "contentName": "text.html.ghp",
-      "patterns": [
-        {
-          "begin": "\\{",
-          "beginCaptures": {
-            "0": { "name": "punctuation.section.embedded.gleam.begin" }
-          },
-          "end": "\\}",
-          "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.gleam.end" }
-          },
-          "contentName": "source.gleam.embedded.html",
-          "patterns": [
-            {
-              "include": "source.gleam.ghp"
-            }
-          ]
-        },
-        {
-          "include": "text.html.basic"
-        }
-      ]
+      "include": "#htmlElement"
     },
     {
       "include": "source.gleam"
     }
-  ]
+  ],
+  "repository": {
+    "htmlElement": {
+      "begin": "(<)(\\w+)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.tag.begin" },
+        "2": { "name": "entity.name.tag" }
+      },
+      "end": "(</)(\\w+)(>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.tag.end" },
+        "2": { "name": "entity.name.tag" },
+        "3": { "name": "punctuation.definition.tag.end" }
+      },
+      "patterns": [
+        {
+          "name": "entity.other.attribute-name",
+          "match": "\\b\\w+\\b"
+        },
+        {
+          "name": "punctuation.separator.key-value",
+          "match": "="
+        },
+        {
+          "name": "string.quoted.double",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "include": "#gleamCode"
+            }
+          ]
+        },
+        {
+          "include": "#gleamCode"
+        },
+        {
+          "include": "#htmlElement"
+        }
+      ]
+    },
+    "gleamCode": {
+      "begin": "\\{",
+      "beginCaptures": {
+        "0": { "name": "punctuation.section.embedded.gleam.begin" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.embedded.gleam.end" }
+      },
+      "contentName": "source.gleam.embedded.html",
+      "patterns": [
+        {
+          "include": "source.gleam.ghp"
+        }
+      ]
+    }
+  }
 }
