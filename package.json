@@ -18,12 +18,12 @@
     }],
     "grammars": [{
       "language": "espressoghp",
-      "scopeName": "text.html.ghp",
+      "scopeName": "source.gleam.ghp",
       "path": "./syntaxes/espressoghp.tmLanguage.json",
       "embeddedLanguages": {
         "source.css": "css",
         "source.js": "javascript",
-        "source.gleam": "gleam"
+        "text.html": "html"
       }
     }]
   }
