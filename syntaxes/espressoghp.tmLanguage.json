@@ -1,0 +1,108 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Espresso ghp",
+  "scopeName": "text.html.ghp",
+  "injections": {
+    "text.html.ghp - (meta.embedded.block.ghp | meta.embedded.line.ghp | meta.tag | comment), L:meta.tag, L:source.js.embedded.html, L:string.quoted.double.html": {
+      "patterns": [
+        {
+          "begin": "(^\\s*)(?=<%%(?![^%]*%%>))",
+          "beginCaptures": {
+            "0": { "name": "punctuation.whitespace.comment.leading.ghp" }
+          },
+          "end": "(?!\\G)(\\s*$\\n)?",
+          "endCaptures": {
+            "0": { "name": "punctuation.whitespace.comment.trailing.ghp" }
+          },
+          "patterns": [
+            { "include": "#comment" }
+          ]
+        },
+        {
+          "begin": "(^\\s*)(?=<%(?![^%]*%>))",
+          "beginCaptures": {
+            "0": { "name": "punctuation.whitespace.embedded.leading.ghp" }
+          },
+          "end": "(?!\\G)(\\s*$\\n)?",
+          "endCaptures": {
+            "0": { "name": "punctuation.whitespace.embedded.trailing.ghp" }
+          },
+          "patterns": [
+            { "include": "#tags" }
+          ]
+        },
+        { "include": "#comment" },
+        { "include": "#tags" }
+      ]
+    }
+  },
+  "patterns": [
+    { "include": "text.html.basic" }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "begin": "<%+//",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.begin.ghp" }
+          },
+          "end": "%>",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.comment.end.ghp" }
+          },
+          "name": "comment.block.ghp"
+        }
+      ]
+    },
+    "tags": {
+      "patterns": [
+        {
+          "begin": "<%[^%]",
+          "beginCaptures": {
+            "0": { "name": "punctuation.section.embedded.begin.ghp" }
+          },
+          "contentName": "source.gleam.embedded.ghp",
+          "end": "%>",
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.ghp" }
+          },
+          "name": "meta.embedded.block.ghp",
+          "patterns": [
+            {
+              "captures": {
+                "1": { "name": "punctuation.definition.comment.ghp" }
+              },
+              "match": "(#).*?(?=-?%>)",
+              "name": "comment.line.number-sign.ghp"
+            },
+            { "include": "source.gleam" }
+          ]
+        },
+        {
+          "begin": "<%\\^",
+          "beginCaptures": {
+            "0": { "name": "punctuation.section.embedded.begin.ghp" }
+          },
+          "contentName": "source.gleam.embedded.ghp",
+          "end": "\\^%>",
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.ghp" },
+            "1": { "name": "source.gleam" }
+          },
+          "name": "meta.embedded.line.ghp",
+          "patterns": [
+            {
+              "captures": {
+                "1": { "name": "punctuation.definition.comment.ghp" }
+              },
+              "match": "(//).*?(?=^%>)",
+              "name": "comment.line.number-sign.ghp"
+            },
+            { "include": "source.gleam" }
+          ]
+        }
+      ]
+    }
+  }
+}

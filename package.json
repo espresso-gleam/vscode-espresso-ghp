@@ -1,0 +1,30 @@
+{
+  "name": "vscode-espresso-ghp",
+  "displayName": "vscode-espresso-ghp",
+  "description": "A language extension for the GHP template syntax of Espresso",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "espressoghp",
+      "aliases": ["Espresso GHP (HTML and Gleam)", "espressoghp"],
+      "extensions": [".ghp"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "espressoghp",
+      "scopeName": "text.html.ghp",
+      "path": "./syntaxes/espressoghp.tmLanguage.json",
+      "embeddedLanguages": {
+        "source.css": "css",
+        "source.js": "javascript",
+        "source.gleam": "gleam"
+      }
+    }]
+  }
+}
